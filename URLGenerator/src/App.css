@@ -1,42 +1,84 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+/* App.css */
+
+.main-container {
+  display: flex;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: auto;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.content {
+  flex: 1; /* Allow this section to take available space */
+}
+
+.saved-urls {
+  margin-left: 20px; /* Add space between input and saved URLs */
+  flex: 0 0 250px; /* Fixed width for the saved URLs section */
+}
+
+h1, h2 {
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+label {
+  margin-bottom: 5px;
+  display: block;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.button {
+  padding: 10px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  width: 100%;
 }
 
-.card {
-  padding: 2em;
+.button:hover {
+  background-color: #0056b3;
 }
 
-.read-the-docs {
-  color: #888;
+ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+ul li {
+  margin: 10px 0;
+  display: flex; /* Flex layout for URL items */
+  justify-content: space-between; /* Space out the URL and buttons */
+}
+
+.url-link {
+  cursor: pointer;
+  color: #007BFF;
+  text-decoration: underline;
+  flex-grow: 1; /* Allow URL link to grow and fill space */
+}
+
+.url-link:hover {
+  text-decoration: none;
+}
+
+a {
+  text-decoration: none;
+  color: #007BFF;
+}
+
+a:hover {
+  text-decoration: underline;
 }
