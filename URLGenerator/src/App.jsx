@@ -150,54 +150,54 @@ function App() {
                 <div className="url-list">
                     <h2>Saved URLs</h2>
                     {savedUrls.map((urlData, index) => (
-                        <div key={index} className="url-card">
-                            <div className="url-content">
-                                <span 
-                                    onClick={() => handleOpenUrl(urlData.url)} 
-                                    className="url-link"
-                                >
-                                    {urlData.url}
-                                </span>
-                                <Button 
-                                    onClick={() => urlData.isEditing ? handleSaveChanges(index) : handleEditToggle(index)} 
-                                    label={urlData.isEditing ? "Save Changes" : "Edit"} 
-                                    isPrimary={!urlData.isEditing}
-                                />
-                            </div>
+    <div key={index} className="url-card">
+        <div className="url-content">
+            <span 
+                onClick={() => handleOpenUrl(urlData.url)} 
+                className="url-link"
+            >
+                {urlData.url}
+            </span>
+            <Button 
+                onClick={() => urlData.isEditing ? handleSaveChanges(index) : handleEditToggle(index)} 
+                label={urlData.isEditing ? "Save Changes" : "Edit"} 
+                isPrimary={true}
+            />
+        </div>
 
-                            {/* Show fields for editing URL parts only if in editing mode */}
-                            {urlData.isEditing && (
-                                <div className="edit-fields">
-                                    <InputField
-                                        label="Protocol:"
-                                        value={editParts.protocol}
-                                        onChange={(e) => setEditParts({ ...editParts, protocol: e.target.value })}
-                                    />
-                                    <InputField
-                                        label="Host:"
-                                        value={editParts.host}
-                                        onChange={(e) => setEditParts({ ...editParts, host: e.target.value })}
-                                    />
-                                    <InputField
-                                        label="Path:"
-                                        value={editParts.pathname}
-                                        onChange={(e) => setEditParts({ ...editParts, pathname: e.target.value })}
-                                    />
-                                    <InputField
-                                        label="Query String:"
-                                        value={editParts.search}
-                                        onChange={(e) => setEditParts({ ...editParts, search: e.target.value })}
-                                    />
-                                    <InputField
-                                        label="Fragment:"
-                                        value={editParts.hash}
-                                        onChange={(e) => setEditParts({ ...editParts, hash: e.target.value })}
-                                    />
-                                </div>
-                            )}
-                            <Button onClick={() => handleDeleteUrl(index)} label="Delete" />
-                        </div>
-                    ))}
+        {/* Show fields for editing URL parts only if in editing mode */}
+        {urlData.isEditing && (
+            <div className="edit-fields">
+                <InputField
+                    label="Protocol:"
+                    value={editParts.protocol}
+                    onChange={(e) => setEditParts({ ...editParts, protocol: e.target.value })}
+                />
+                <InputField
+                    label="Host:"
+                    value={editParts.host}
+                    onChange={(e) => setEditParts({ ...editParts, host: e.target.value })}
+                />
+                <InputField
+                    label="Path:"
+                    value={editParts.pathname}
+                    onChange={(e) => setEditParts({ ...editParts, pathname: e.target.value })}
+                />
+                <InputField
+                    label="Query String:"
+                    value={editParts.search}
+                    onChange={(e) => setEditParts({ ...editParts, search: e.target.value })}
+                />
+                <InputField
+                    label="Fragment:"
+                    value={editParts.hash}
+                    onChange={(e) => setEditParts({ ...editParts, hash: e.target.value })}
+                />
+            </div>
+        )}
+        <Button onClick={() => handleDeleteUrl(index)} label="Delete" />
+    </div>
+))}
                 </div>
             )}
         </div>
