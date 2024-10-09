@@ -1,84 +1,71 @@
-/* App.css */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+}
 
 .main-container {
-  display: flex;
-  padding: 20px;
-  font-family: Arial, sans-serif;
   max-width: 800px;
   margin: auto;
-  border: 1px solid #ccc;
+  background: #fff;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 20px;
 }
 
-.content {
-  flex: 1; /* Allow this section to take available space */
-}
-
-.saved-urls {
-  margin-left: 20px; /* Add space between input and saved URLs */
-  flex: 0 0 250px; /* Fixed width for the saved URLs section */
-}
-
-h1, h2 {
+h1 {
+  color: #333;
   text-align: center;
+  margin-bottom: 20px;
 }
 
-label {
-  margin-bottom: 5px;
+.url-input-section {
+  margin-bottom: 20px;
+}
+
+.label {
   display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #333;
 }
 
-input {
+.input-field {
   width: 100%;
   padding: 10px;
-  margin-bottom: 15px;
   border: 1px solid #ccc;
   border-radius: 5px;
+  margin-bottom: 15px;
+  font-size: 16px;
 }
 
 .button {
-  padding: 10px;
-  background-color: #007BFF;
-  color: white;
+  padding: 10px 15px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-bottom: 10px;
-  width: 100%;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.button.primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.button.secondary {
+  background-color: #f44336;
+  color: white;
 }
 
 .button:hover {
-  background-color: #0056b3;
+  opacity: 0.9;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
+.url-list {
+  margin-top: 20px;
 }
 
-ul li {
-  margin: 10px 0;
-  display: flex; /* Flex layout for URL items */
-  justify-content: space-between; /* Space out the URL and buttons */
-}
-
-.url-link {
-  cursor: pointer;
-  color: #007BFF;
-  text-decoration: underline;
-  flex-grow: 1; /* Allow URL link to grow and fill space */
-}
-
-.url-link:hover {
-  text-decoration: none;
-}
-
-a {
-  text-decoration: none;
-  color: #007BFF;
-}
-
-a:hover {
-  text-decoration: underline;
-}
+.url-card {
+  background:

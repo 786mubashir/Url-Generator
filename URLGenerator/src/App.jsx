@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 // InputField Component for input fields
 const InputField = ({ label, value, onChange, placeholder }) => {
     return (
-        <div>
-            <label>
+        <div className="input-group">
+            <label className="label">
                 {label}
                 <input 
                     type="text" 
                     value={value} 
                     onChange={onChange} 
                     placeholder={placeholder} 
+                    className="input-field"
                 />
             </label>
         </div>
@@ -19,118 +20,186 @@ const InputField = ({ label, value, onChange, placeholder }) => {
 };
 
 // Button Component for buttons
-const Button = ({ onClick, label }) => {
+const Button = ({ onClick, label, isPrimary }) => {
     return (
-        <button onClick={onClick} className="button">
+        <button 
+            onClick={onClick} 
+            className={`button ${isPrimary ? 'primary' : 'secondary'}`}
+        >
             {label}
         </button>
     );
 };
 
-// OpenUrls Component for handling URL opening logic
-const OpenUrls = ({ customUrl }) => {
-    const openUrlInNewTab = (url) => {
-        window.open(url, '_blank', 'noopener,noreferrer');
-    };
-
-    return (
-        <div>
-            <Button
-                onClick={() => openUrlInNewTab(customUrl)}
-                label="Open Custom URL in New Tab"
-            />
-        </div>
-    );
-};
-
 // Main App Component
 function App() {
-    const [customUrl, setCustomUrl] = useState('');
-    const [savedUrls, setSavedUrls] = useState([]);
-    const [editEnv, setEditEnv] = useState('');
-    const [editId, setEditId] = useState('');
-    const [editIndex, setEditIndex] = useState(null); // To track which URL is being edited
+    const [inputUrl, setInputUrl] = useState(''); // URL entered by the user
+    const [savedUrls, setSavedUrls] = useState([]); // Store final URLs with their parts
+    const [editParts, setEditParts] = useState({}); // Temporary state for editing parts
 
-    const handleCustomUrlChange = (event) => setCustomUrl(event.target.value);
+    // On initial load, retrieve saved URLs from localStorage
+    useEffect(() => {
+        const storedUrls = localStorage.getItem('savedUrls');
+        if (storedUrls) {
+            setSavedUrls(JSON.parse(storedUrls)); // Load saved URLs from localStorage if available
+        }
+    }, []);
 
-    const handleAddUrl = () => {
-        if (customUrl && !savedUrls.includes(customUrl)) {
-            setSavedUrls([...savedUrls, customUrl]);
-            setCustomUrl(''); // Clear input field
+    // Save the current state of savedUrls to localStorage whenever it changes
+    useEffect(() => {
+        localStorage.setItem('savedUrls', JSON.stringify(savedUrls));
+    }, [savedUrls]);
+
+    // Handle changes in the URL input
+    const handleUrlChange = (event) => {
+        setInputUrl(event.target.value);
+    };
+
+    // Split the URL into parts and save it
+    const handleSubmit = () => {
+        try {
+            const url = new URL(inputUrl); // Use the URL constructor to parse the URL
+            const parts = {
+                protocol: url.protocol.replace(':', ''), // Remove the ':' from the protocol
+                host: url.host, // Includes subdomain and domain
+                pathname: url.pathname.replace(/^\//, ''), // Remove leading '/'
+                search: url.search, // Query parameters
+                hash: url.hash // Fragment
+            };
+
+            const newUrlData = {
+                url: inputUrl,
+                parts: parts,
+                isEditing: false, // Track if the URL is being edited
+            };
+
+            setSavedUrls([...savedUrls, newUrlData]); // Add new URL object to saved URLs
+            setInputUrl(''); // Clear input field
+        } catch (error) {
+            alert('Invalid URL. Please enter a valid URL.'); // Handle invalid URL input
         }
     };
 
-    const handleUpdateUrl = () => {
-        if (editEnv && editId) {
-            const newUrl = `https://${editEnv}.crm.dynamics.com/main.aspx?forceUCI=1&appid=${editId}`;
-            setSavedUrls([...savedUrls, newUrl]); // Add new URL instead of replacing
-            setEditEnv(''); // Clear edit fields
-            setEditId('');
-            setEditIndex(null); // Reset edit index
-        }
+    // Handle editing toggle and initialize edit state
+    const handleEditToggle = (index) => {
+        const updatedUrls = savedUrls.map((urlData, i) => {
+            if (i === index) {
+                if (!urlData.isEditing) {
+                    // Initialize the edit state with the current URL parts
+                    setEditParts(urlData.parts);
+                }
+                return { ...urlData, isEditing: !urlData.isEditing }; // Toggle the editing state
+            }
+            return urlData; // Keep other URLs unchanged
+        });
+
+        setSavedUrls(updatedUrls); // Update saved URLs state
     };
 
-    const handleEditUrl = (index) => {
-        const urlParts = savedUrls[index].match(/https:\/\/(.*?)\.crm.dynamics.com\/.*?appid=(.*)/);
-        if (urlParts) {
-            setEditEnv(urlParts[1]); // Extract environment
-            setEditId(urlParts[2]); // Extract app ID
-            setEditIndex(index); // Set the index for editing
-        }
+    // Save the changes to the URL parts when the "Save" button is clicked
+    const handleSaveChanges = (index) => {
+        const updatedUrls = savedUrls.map((urlData, i) => {
+            if (i === index) {
+                const newUrl = `${editParts.protocol}://${editParts.host}/${editParts.pathname}${editParts.search}${editParts.hash}`; // Construct new URL
+
+                const newUrlData = {
+                    url: newUrl,
+                    parts: editParts,
+                    isEditing: false, // Exit editing mode after saving
+                };
+
+                return newUrlData; // Return the updated URL data
+            }
+            return urlData; // Keep other URLs unchanged
+        });
+
+        setSavedUrls(updatedUrls); // Update saved URLs state
+        setEditParts({}); // Clear edit state
     };
 
+    // Handle deleting a saved URL
     const handleDeleteUrl = (index) => {
         const updatedUrls = savedUrls.filter((_, i) => i !== index);
         setSavedUrls(updatedUrls);
     };
 
+    // Open the URL in a new tab
+    const handleOpenUrl = (url) => {
+        window.open(url, '_blank', 'noopener,noreferrer');
+    };
+
     return (
-        <div className="main-container">
-            <div className="content">
-                <h1>Open Dynamics URLs</h1>
+        <div className="content">
+            <h1>URL Editor</h1>
 
-                <InputField
-                    label="Enter custom URL:"
-                    value={customUrl}
-                    onChange={handleCustomUrlChange}
-                    placeholder="e.g., https://salonrepublicdev.crm.dynamics.com/main.aspx?forceUCI=1&appid=YOUR_APP_ID"
-                />
+            {/* Input for the full URL */}
+            {savedUrls.every(urlData => !urlData.isEditing) && (
+                <div className="url-input-section">
+                    <InputField
+                        label="Enter URL:"
+                        value={inputUrl}
+                        onChange={handleUrlChange}
+                        placeholder="e.g., https://www.example.com/path?query=1#hash"
+                    />
+                    <Button onClick={handleSubmit} label="Save URL" isPrimary />
+                </div>
+            )}
 
-                <Button
-                    onClick={handleAddUrl}
-                    label="Add URL"
-                />
+            {/* List of saved URLs */}
+            {savedUrls.length > 0 && (
+                <div className="url-list">
+                    <h2>Saved URLs</h2>
+                    {savedUrls.map((urlData, index) => (
+                        <div key={index} className="url-card">
+                            <div className="url-content">
+                                <span 
+                                    onClick={() => handleOpenUrl(urlData.url)} 
+                                    className="url-link"
+                                >
+                                    {urlData.url}
+                                </span>
+                                <Button 
+                                    onClick={() => urlData.isEditing ? handleSaveChanges(index) : handleEditToggle(index)} 
+                                    label={urlData.isEditing ? "Save Changes" : "Edit"} 
+                                    isPrimary={!urlData.isEditing}
+                                />
+                            </div>
 
-                <OpenUrls customUrl={customUrl} />
-            </div>
-            <div className="saved-urls">
-                <h2>Saved URLs</h2>
-                <ul>
-                    {savedUrls.map((url, index) => (
-                        <li key={index}>
-                            <span onClick={() => window.open(url, '_blank')} className="url-link">
-                                {url}
-                            </span>
-                            <Button onClick={() => handleEditUrl(index)} label="Edit" />
+                            {/* Show fields for editing URL parts only if in editing mode */}
+                            {urlData.isEditing && (
+                                <div className="edit-fields">
+                                    <InputField
+                                        label="Protocol:"
+                                        value={editParts.protocol}
+                                        onChange={(e) => setEditParts({ ...editParts, protocol: e.target.value })}
+                                    />
+                                    <InputField
+                                        label="Host:"
+                                        value={editParts.host}
+                                        onChange={(e) => setEditParts({ ...editParts, host: e.target.value })}
+                                    />
+                                    <InputField
+                                        label="Path:"
+                                        value={editParts.pathname}
+                                        onChange={(e) => setEditParts({ ...editParts, pathname: e.target.value })}
+                                    />
+                                    <InputField
+                                        label="Query String:"
+                                        value={editParts.search}
+                                        onChange={(e) => setEditParts({ ...editParts, search: e.target.value })}
+                                    />
+                                    <InputField
+                                        label="Fragment:"
+                                        value={editParts.hash}
+                                        onChange={(e) => setEditParts({ ...editParts, hash: e.target.value })}
+                                    />
+                                </div>
+                            )}
                             <Button onClick={() => handleDeleteUrl(index)} label="Delete" />
-                        </li>
+                        </div>
                     ))}
-                </ul>
-                <h3>Add Customized URL</h3>
-                <InputField
-                    label="Environment:"
-                    value={editEnv}
-                    onChange={(e) => setEditEnv(e.target.value)}
-                    placeholder="e.g., salonrepublicdev"
-                />
-                <InputField
-                    label="App ID:"
-                    value={editId}
-                    onChange={(e) => setEditId(e.target.value)}
-                    placeholder="e.g., 8fdf831d-1d57-ee11-be6f-002248081975"
-                />
-                <Button onClick={handleUpdateUrl} label="Add Customized URL" />
-            </div>
+                </div>
+            )}
         </div>
     );
 }
