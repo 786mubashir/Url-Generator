@@ -1,0 +1,104 @@
+
+.url-card {
+    background: #F1EEDC; /* Brighter, cleaner background */
+    border: 1px solid #e0e0e0; /* Softer border */
+    border-radius: 10px; /* Slightly larger for a smoother appearance */
+    padding: 20px; /* More padding for better spacing */
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px; /* Increase margin for better separation */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); /* Soft shadow for a 3D card effect */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth hover transitions */
+  }
+  
+  .url-card:hover {
+    transform: translateY(-3px); /* Slight lift on hover */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); /* Stronger shadow on hover */
+  }
+  
+  .url-card-title {
+    font-size: 18px; /* Clear and readable title size */
+    font-weight: bold;
+    color: #333; /* Darker text color for better contrast */
+    margin-bottom: 8px;
+  }
+  
+  .url-card-description {
+    font-size: 14px; /* Smaller, more compact description */
+    color: #666; /* Lighter text color for less important content */
+    margin-bottom: 10px;
+  }
+  
+  .url-card-link {
+    font-size: 14px;
+    color: #007BFF; /* Highlighted link color */
+    text-decoration: none;
+    margin-top: auto; /* Push link to bottom */
+  }
+  
+  .url-card-link:hover {
+    text-decoration: underline; /* Indicate hover effect */
+  }
+  
+  
+  .url-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .url-link {
+    cursor: pointer;
+    color: #007bff;
+    text-decoration: underline;
+  }
+
+  .URLKeeper {
+    display: block;
+  }
+
+  
+.input-button-wrapper {
+    display: flex;
+    align-items: center;
+  }
+  
+  .input-button-wrapper input {
+    flex-grow: 1;
+    margin-right: 15px;
+  }
+  
+  .input-button-wrapper button {
+    flex-shrink: 0;
+    padding: 10px 15px;
+    height: 40px;
+    margin-left: 35%;
+  }
+  
+  .url-input-section {
+    margin-bottom: 20px;
+  }
+
+  
+
+  
+  
+  .url-link {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+    word-break: break-all;
+    max-width: 70%;
+    width: 75%;
+  }
+  
+  
+.url-list {
+    margin-top: 20px;
+  }
+  
+  .edit-fields {
+    display: flex;
+    flex-direction: column;
+  }
+  

@@ -1,0 +1,14 @@
+{
+    "name": "My-Chrome-Extension",
+    "version": "0.0.0.1",
+    "manifest_version": 3,
+    "action": {
+      "default_popup": "./index.html",
+      "default_icon": "logo.png"
+    },
+    "permissions": ["activeTab"],
+    "content_security_policy": {
+      "extension_pages": "script-src 'self'; object-src 'self'"
+    }
+  }
+  

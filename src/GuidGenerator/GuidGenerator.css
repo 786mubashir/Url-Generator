@@ -1,0 +1,86 @@
+.guid-generator {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background-color: #f8f9fa; /* Light background for content */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button-group {
+  margin-bottom: 20px;
+}
+
+.button-group button {
+  padding: 12px 25px;
+  border: none;
+  background-color: #007bff; /* Primary Color */
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.button-group button:hover {
+  background-color: #0056b3; /* Darker shade on hover */
+}
+
+.guid-display {
+  margin-top: 20px;
+}
+
+.guid-display textarea {
+  width: 98%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  line-height: 1.5;
+  resize: none;
+  background-color: #ffffff; /* White background for textarea */
+}
+
+.guid-display button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border: none;
+  background-color: #28a745; /* Success Color */
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.guid-display button:hover {
+  background-color: #218838; /* Darker shade on hover */
+}
+
+.copied-message {
+  color: green;
+  margin-left: 10px;
+  font-weight: bold;
+}
+
+.guid-validation {
+  margin-top: 20px;
+}
+
+.guid-validation input {
+  width: 98%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+
+.valid-message {
+  color: green;
+  font-weight: bold;
+}
+
+.invalid-message {
+  color: red;
+  font-weight: bold;
+}
